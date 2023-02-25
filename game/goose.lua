@@ -4,7 +4,7 @@ local Goose = {}
 
 -- 🦆
 function Goose:new(x, y, width, height)
-    new_goose = new_goose or {}
+    local new_goose = new_goose or {}
     setmetatable(new_goose, self)
     self.__index = self
 
