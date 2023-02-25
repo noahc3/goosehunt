@@ -47,8 +47,8 @@ function score(goose_type, time)
   elseif(time > 2 && time <= 5 ) then
     time_multiplier = 2
   
-  score += goose_multiplier*stage_multiplier*time_multipler
-  kill_count += 1
+  score = score + goose_multiplier*stage_multiplier*time_multipler
+  kill_count = kill_count + 1
 
   return score
 
