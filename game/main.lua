@@ -116,7 +116,7 @@ end
 function love.load()
     centergyro()
 
-    new_goose = goose_module:new(200, 100, 70, 90)
+    goose = goose_module:new(200, 100, 70, 90)
 end
 
 function love.draw()
@@ -125,7 +125,7 @@ function love.draw()
     local cursorpos = gyropos()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
-    love.graphics.rectangle("line", new_goose.x, new_goose.y, new_goose.width, new_goose.height)
+    goose:draw()
 end
 
 -- we need to quit the app when a button is pressed
