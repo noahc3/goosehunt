@@ -93,8 +93,10 @@ function draw_game()
         triggerheld = false
     end
 
+    graphics:draw()
+
     for i,goose in ipairs(geeselist) do
-        graphics:draw()
+        goose:draw()
     end
     scorehud:draw(2, 0, 0, 500)
     
