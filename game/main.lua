@@ -49,10 +49,6 @@ function love.update(dt)
     cursor:update(dt)
 end
 
-function love.update()
-    goose:update()
-end
-
 function love.draw()
     love.graphics.setColor(1, 1, 1, 1)
 
