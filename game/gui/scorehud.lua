@@ -30,7 +30,7 @@ function scorehud:draw(round, bulletCount, gooseCount, score)
 
     self:goose_counter(gooseCount)
     scorehud:bullet_counter(bulletCount)
-  end
+end
   
 
 function scorehud:goose_counter(goose_count)
