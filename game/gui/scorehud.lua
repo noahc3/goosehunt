@@ -1,16 +1,24 @@
 local scorehud = {}
 
+function scorehud:loadfont(file, size)
+    love.graphics.setNewFont(file, size)
+    local font = love.graphics.getFont()
+    love.graphics.setFont(self.defaultfont)
+
+    return font
+end
+
 function scorehud:init()
-    defaultfont = love.graphics.getFont()
-    love.graphics.setNewFont("assets/joystix.ttf", 40)
-    hudfont = love.graphics.getFont()
-    love.graphics.setFont(defaultfont)
+    self.defaultfont = love.graphics.getFont()
+    self.hudfont = self:loadfont("assets/joystix.ttf", 40)
+    self.hudtexture = love.graphics.newImage("assets/hud.png")
 end
 
 function scorehud:draw(bulletCount, gooseCount, score)
-    love.graphics.setFont(hudfont)
-    love.graphics.print("000000", hudfont, 0, 0)
-    love.graphics.setFont(defaultfont)
+    love.graphics.setFont(self.hudfont)
+    love.graphics.draw(self.hudtexture, 0, 0)
+    love.graphics.print("000000", self.hudfont, 0, 0)
+    love.graphics.setFont(self.defaultfont)
 end
 
 return scorehud
