@@ -107,21 +107,22 @@ function draw_game()
     local cursorpos = cursor:gyropos()
     local stick = love.joystick.getJoysticks()[1]
 
-    if (stick:getAxis(6) == 1) and (not triggerheld) then
-        shoot_module:shoot(stick, cursorpos)
-        triggerheld = true
-    elseif stick:getAxis(6) == 0 then
-        triggerheld = false
-    end
-
     graphics:draw()
 
     for i,goose in ipairs(geeselist) do
         goose:draw()
     end
-    scorehud:draw(2, 0, 0, 500)
     
     cursor:draw(cursorpos, lsoffset)
+
+    scorehud:draw(2, 0, 0, 500)
+
+    if (stick:getAxis(6) == 1) and (not triggerheld) then
+        shoot_module:shoot(stick, cursorpos, geeselist)
+        triggerheld = true
+    elseif stick:getAxis(6) == 0 then
+        triggerheld = false
+    end
 end
 
 function love.draw()
