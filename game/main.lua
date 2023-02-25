@@ -39,15 +39,10 @@ end
 
 function love.load()
     triggerheld = false;
-<<<<<<< Updated upstream
     lsoffset = {0, 0}
     cursor:centergyro()
     goose = goose_module:new(200, 532, 128, 128)
-=======
-    centergyro()
-    goose = goose_module:new(200, 588, 45, 45)
     graphics:init()
->>>>>>> Stashed changes
     scorehud:init()
 end
 
@@ -71,13 +66,10 @@ function love.draw()
         triggerheld = false
     end
 
-    goose:draw()
-<<<<<<< Updated upstream
-    cursor:draw(cursorpos, lsoffset)
-=======
     graphics:draw()
->>>>>>> Stashed changes
     scorehud:draw(2, 0, 0, 500)
+    cursor:draw(cursorpos, lsoffset)
+    goose:draw()
 end
 
 -- we need to quit the app when a button is pressed

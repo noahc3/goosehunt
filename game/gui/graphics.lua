@@ -3,13 +3,13 @@ local graphics = {}
 function graphics:init()
     self.wallpaper = love.graphics.newImage("assets/background.png")
     self.foreground_image = love.graphics.newImage("assets/foreground.png")
-    -- self.background_music = love.audio.newSource("assets/sounds/minecraft_three", "stream")
+    self.background_music = love.audio.newSource("assets/sounds/minecraft_three.wav", "stream")
+    self.background_music:play()
 end
 
 function graphics:draw()
     graphics:background()
     graphics:foreground()
-    -- self.background_music:play()
 end
 
 function graphics:foreground()
