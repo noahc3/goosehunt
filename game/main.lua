@@ -4,6 +4,7 @@ cursor_module = require "cursor"
 shoot_module = require "shoot"
 goose_module = require "goose"
 scorehud = require "gui/scorehud"
+graphics = require "gui/graphics"
 
 -- END MODULES
 
@@ -44,6 +45,7 @@ function love.load()
     lsoffset = {0, 0}
     cursor:centergyro()
     goose = goose_module:new(200, 532, 128, 128)
+    graphics:init()
     scorehud:init()
 
     introimage = love.graphics.newImage("assets/introscene.png")
@@ -73,9 +75,10 @@ function draw_game()
         triggerheld = false
     end
 
-    goose:draw()
-    cursor:draw(cursorpos, lsoffset)
+    graphics:draw()
     scorehud:draw(2, 0, 0, 500)
+    cursor:draw(cursorpos, lsoffset)
+    goose:draw()
 end
 
 function love.draw()
