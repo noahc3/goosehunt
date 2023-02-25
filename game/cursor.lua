@@ -95,6 +95,8 @@ end
 
 -- DISPLAY FUNCS
 
+cursorimg = love.graphics.newImage("assets/cursor_target.png")
+
 function cursor:update(dt)
     if (love.joystick.getJoystickCount() < 1) then
         return {0, 0}
@@ -109,8 +111,7 @@ function cursor:draw(cursorpos, lsoffset)
     cursorpos[1] = math.max(math.min(cursorpos[1] + lsoffset[1], 1280), 0)
     cursorpos[2] = math.max(math.min(cursorpos[2] + lsoffset[2], 720), 0)
 
-    love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(cursorimg, cursorpos[1], cursorpos[2])
 end
 
 -- END DISPLAY FUNCS
