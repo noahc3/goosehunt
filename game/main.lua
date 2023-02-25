@@ -2,6 +2,7 @@
 
 shoot_module = require "shoot"
 goose_module = require "goose"
+scorehud = require "gui/scorehud"
 
 -- END MODULES
 
@@ -116,8 +117,8 @@ end
 function love.load()
     triggerheld = false;
     centergyro()
-
     goose = goose_module:new(200, 100, 70, 90)
+    scorehud:init()
 end
 
 function love.draw()
@@ -138,6 +139,7 @@ function love.draw()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
     goose:draw()
+    scorehud:draw()
 end
 
 -- we need to quit the app when a button is pressed
