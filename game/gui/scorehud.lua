@@ -30,6 +30,7 @@ function scorehud:draw(round, bulletCount, gooseCount, score)
 
     self:goose_counter(gooseCount)
     scorehud:bullet_counter(bulletCount)
+    scorehud:miss_counter(25)
 end
   
 
@@ -56,5 +57,16 @@ function scorehud:bullet_counter(bullet_count)
       love.graphics.draw(self.hud_bullet, bullet_x + i * bullet_x_change, bullet_y)
     end
 end
+
+function scorehud:miss_counter(line_amount)
+    line_x = 345
+    line_y = 610
+
+    love.graphics.setColor(35/255,110/255,248/255,1.0)
+    for i = 0, line_amount do
+      love.graphics.rectangle("fill", line_x + 20*i, line_y, 10,50)
+    end
+end
+
 
 return scorehud
