@@ -11,14 +11,14 @@ graphics = require "gui/graphics"
 SCENES = {INTRO = 0, GAME = 1}
 SCENE = SCENES.INTRO
 
+basegoosepos = {200, 532}
+spawnafter = 3
+geeselist = {}
+
 function round(num, digits)
     local mult = 10^(digits or 0)
     return math.floor(num * mult + 0.5) / mult
 end
-
-basegoosepos = {200, 532}
-spawnafter = 3
-geeselist = {}
 
 function debugdraw()
     local strs = {
@@ -68,6 +68,13 @@ function love.update(dt)
     end
 
     cursor:update(dt)
+end
+
+function draw_intro()
+    local joystick = love.joystick.getJoysticks()[1]
+    local alpha = love.timer.getTime() - introtime
+    love.graphics.setColor(1,1,1,alpha)
+    love.graphics.draw(introimage, 0, 0)
 end
 
 function draw_game()
