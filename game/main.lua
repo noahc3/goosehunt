@@ -1,6 +1,7 @@
 -- MODULE REQUIREMENTS
 
 shoot_module = require "shoot"
+goose_module = require "goose"
 
 -- END MODULES
 
@@ -98,12 +99,12 @@ function debugdraw()
 
     for i, joystick in ipairs(love.joystick.getJoysticks()) do
         local axes = {joystick:getAxes()}
-        
+
         for i, axis in ipairs(axes) do
             axes[i] = round(axis, 2)
         end
         strs[#strs + 1] = "  " .. joystick:getName()
-        
+
         for i, axis in ipairs(axes) do
             strs[#strs + 1] = "    " .. i .. ": " .. axis
         end
@@ -114,6 +115,8 @@ end
 
 function love.load()
     centergyro()
+
+    goose = goose_module:new(200, 100, 70, 90)
 end
 
 function love.draw()
@@ -121,6 +124,8 @@ function love.draw()
 
     local cursorpos = gyropos()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
+
+    goose:draw()
 end
 
 -- we need to quit the app when a button is pressed
