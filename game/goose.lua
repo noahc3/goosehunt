@@ -12,15 +12,15 @@ function Goose:new(x, y, width, height)
     new_goose.y = y
     new_goose.width = width
     new_goose.height = height
-    new_goose.velocity_x = 1
-    new_goose.velocity_y = 2
+    new_goose.velocity_x = 60
+    new_goose.velocity_y = 120
 
     return new_goose
 end
 
-function Goose:update()
-    self.x = self.x + self.velocity_x
-    self.y = self.y + self.velocity_y
+function Goose:update(dt)
+    self.x = self.x + self.velocity_x * dt
+    self.y = self.y + self.velocity_y * dt
 end
 
 function Goose:draw()

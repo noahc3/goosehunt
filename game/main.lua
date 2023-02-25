@@ -121,8 +121,8 @@ function love.load()
     scorehud:init()
 end
 
-function love.update()
-    goose:update()
+function love.update(dt)
+    goose:update(dt)
 end
 
 function love.draw()
