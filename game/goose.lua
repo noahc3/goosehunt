@@ -22,7 +22,9 @@ function Goose:new(x, y, width, height)
     new_goose.shot_delay = 0.4
 
     -- Sprites
-    new_goose.sprite = love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png")
+    new_goose.sprites = {
+        love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png")
+    }
 
     return new_goose
 end
@@ -43,7 +45,7 @@ end
 
 function Goose:draw()
     self.cool = 1/0
-    love.graphics.draw(self.sprite, self.x, self.y)
+    love.graphics.draw(self.sprites[1], self.x, self.y)
 end
 
 function Goose:gamepadpressed(joystick, button)
