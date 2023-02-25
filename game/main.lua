@@ -128,7 +128,7 @@ function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
     elseif button == "triggerright" then
-        shoot_module.shoot()
+        shoot_module.shoot(joystick, gyropos())
     else
         love.event.quit()
     end
