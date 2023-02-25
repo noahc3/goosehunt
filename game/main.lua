@@ -152,5 +152,7 @@ function love.gamepadpressed(joystick, button)
 
     if button == "x" then
         centergyro()
+    elseif button == "start" then
+        love.event.quit()
     end
 end
