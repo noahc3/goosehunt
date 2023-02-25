@@ -81,7 +81,7 @@ end
 
 -- LEFT STICK CONTROL FUNCS
 
-CURSOR_SPEED = 512
+CURSOR_SPEED = 1280
 
 function cursor:leftstickdelta(joystick)
     local leftstick = {joystick:getAxis(1), joystick:getAxis(2)}
@@ -106,8 +106,8 @@ function cursor:update(dt)
 end
 
 function cursor:draw(cursorpos, lsoffset)
-    cursorpos[1] = math.max(math.min(cursorpos[1] + lsoffset[1], 1280), math.max(0, cursorpos[1] + lsoffset[1]))
-    cursorpos[2] = math.max(math.min(cursorpos[2] + lsoffset[2], 720), math.max(0, cursorpos[2] + lsoffset[2]))
+    cursorpos[1] = math.max(math.min(cursorpos[1] + lsoffset[1], 1280), 0)
+    cursorpos[2] = math.max(math.min(cursorpos[2] + lsoffset[2], 720), 0)
 
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
     love.graphics.setColor(1, 1, 1, 1)
