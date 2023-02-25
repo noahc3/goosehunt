@@ -48,16 +48,16 @@ end
 function Goose:gamepadpressed(joystick, button)
     if self.state == self.states.FLYING then
         if button == 'y' then
-            self.velocity_x = 0
-            self.velocity_y = 0
-            self.accumulator = 0
-            self.state = self.states.SHOT
+            get_shot()
         end
     end
 end
 
 function Goose:get_shot()
-
+    self.velocity_x = 0
+    self.velocity_y = 0
+    self.accumulator = 0
+    self.state = self.states.SHOT
 end
 
 return Goose
