@@ -52,6 +52,10 @@ function love.update(dt)
     goose:update(dt)
 end
 
+function love.update()
+    goose:update()
+end
+
 function love.draw()
     debugdraw()
 
