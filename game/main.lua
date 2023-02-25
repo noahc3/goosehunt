@@ -117,7 +117,7 @@ end
 function love.load()
     triggerheld = false;
     centergyro()
-    goose = goose_module:new(200, 100, 70, 90)
+    goose = goose_module:new(200, 588, 45, 45)
     scorehud:init()
 end
 
