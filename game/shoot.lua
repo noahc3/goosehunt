@@ -6,6 +6,11 @@ goose_module = require "goose"
 
 CURSORSIZE = 30
 
+function shoot:init()
+  self.shoot_sound = love.audio.newSource("assets/sounds/shoot.ogg", "stream")
+end
+
+
 function centrecoords(coords)
     return {coords[1] + (CURSORSIZE/2), coords[2] + (CURSORSIZE/2)}
 end
@@ -19,6 +24,8 @@ end
 function shoot:shoot(joystick, coords, geeselist)
     -- apply max rumble for 0.5 seconds
     local vibe = joystick:setVibration(1, 1, 0.5)
+    self.shoot_sound:play()
+
     centredcoords = centrecoords(coords)
 
     for i,goose in ipairs(geeselist) do
