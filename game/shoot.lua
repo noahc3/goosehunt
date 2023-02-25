@@ -4,7 +4,7 @@ module("shoot", package.seeall)
 
 function shoot(joystick, coords)
     -- apply max rumble for 0.5 seconds
-    local vibe = joystick:setVibration(1, 0, 1, 0.5)
+    local vibe = joystick:setVibration(1, 1, 0.5)
 
     love.graphics.setColor(1, 0, 0, 1)
 end
