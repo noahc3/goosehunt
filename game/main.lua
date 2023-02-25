@@ -116,7 +116,7 @@ end
 function love.load()
     centergyro()
 
-    new_goose = Goose(200, 100, 70, 90)
+    new_goose = goose_module:new(200, 100, 70, 90)
 end
 
 function love.draw()
