@@ -32,6 +32,14 @@ function Goose:draw()
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 end
 
+function Goose:gamepadpressed(joystick, button)
+    if self.state == self.states.FLYING then
+        if button == 'y' then
+            self.state = self.states.SHOT
+        end
+    end
+end
+
 function Goose:get_shot()
 
 end

@@ -148,9 +148,9 @@ end
 
 -- we need to quit the app when a button is pressed
 function love.gamepadpressed(joystick, button)
+    goose:gamepadpressed(joystick, button)
+
     if button == "x" then
         centergyro()
-    else
-        love.event.quit()
     end
 end
