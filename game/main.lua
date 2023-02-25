@@ -1,6 +1,6 @@
 -- MODULE REQUIREMENTS
 
-module.require(shoot_module)
+shoot_module = require "shoot"
 
 -- END MODULES
 
@@ -127,8 +127,8 @@ end
 function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
-    else if button == "triggerright" then
-        shoot()
+    elseif button == "triggerright" then
+        shoot_module.shoot()
     else
         love.event.quit()
     end
