@@ -1,3 +1,9 @@
+-- MODULE REQUIREMENTS
+
+module.require(shoot_module)
+
+-- END MODULES
+
 function round(num, digits)
     local mult = 10^(digits or 0)
     return math.floor(num * mult + 0.5) / mult
@@ -121,6 +127,8 @@ end
 function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
+    else if button == "triggerright" then
+        shoot()
     else
         love.event.quit()
     end
