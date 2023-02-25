@@ -40,7 +40,7 @@ function love.load()
     triggerheld = false;
     lsoffset = {0, 0}
     cursor:centergyro()
-    goose = goose_module:new(200, 588, 45, 45)
+    goose = goose_module:new(200, 532, 128, 128)
     scorehud:init()
 end
 
@@ -71,9 +71,11 @@ end
 
 -- we need to quit the app when a button is pressed
 function love.gamepadpressed(joystick, button)
+    goose:gamepadpressed(joystick, button)
+
     if button == "x" then
         cursor:centergyro()
-    else
+    elseif button == "start" then
         love.event.quit()
     end
 end
