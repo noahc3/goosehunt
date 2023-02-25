@@ -1,3 +1,5 @@
+goose_module = require "goose"
+
 function round(num, digits)
     local mult = 10^(digits or 0)
     return math.floor(num * mult + 0.5) / mult
@@ -109,11 +111,7 @@ end
 function love.load()
     centergyro()
 
-    goose = {}
-    goose.x = 100
-    goose.y = 100
-    goose.width = 70
-    goose.height = 90
+    new_goose = Goose(200, 100, 70, 90)
 end
 
 function love.draw()
@@ -122,7 +120,7 @@ function love.draw()
     local cursorpos = gyropos()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
-    love.graphics.rectangle("line", goose.x, goose.y, goose.width, goose.height)
+    love.graphics.rectangle("line", new_goose.x, new_goose.y, new_goose.width, new_goose.height)
 end
 
 -- we need to quit the app when a button is pressed
