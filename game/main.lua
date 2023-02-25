@@ -53,9 +53,15 @@ function love.load()
     
     graphics:init()
     scorehud:init()
+    shoot_module:init()
 
     introimage = love.graphics.newImage("assets/introscene.png")
     introtime = love.timer.getTime()
+
+    spawn_one = love.audio.newSource("assets/sounds/grass_one.ogg", "stream")
+    spawn_two = love.audio.newSource("assets/sounds/grass_two.ogg", "stream")
+    spawn_three = love.audio.newSource("assets/sounds/grass_three.ogg", "stream")
+    spawn_four = love.audio.newSource("assets/sounds/grass_four.ogg", "stream")
 end
 
 function love.update(dt)
@@ -81,6 +87,21 @@ function draw_game()
     if love.timer.getTime() > spawntime then
         table.insert(geeselist, goose_module:new(basegoosepos[1], basegoosepos[2], 128, 128))
         spawntime = love.timer.getTime() + spawnafter
+
+        local random_num = math.random(1, 4)
+
+        if(random_num == 1) then
+          spawn_audio = spawn_one
+        elseif(random_num == 2) then
+          spawn_audio = spawn_two
+        elseif(random_num == 3) then
+          spawn_audio = spawn_three
+        else
+          spawn_audio = spawn_four
+        end
+
+        spawn_audio:play()
+
     end
 
     local cursorpos = cursor:gyropos()
