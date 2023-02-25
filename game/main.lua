@@ -1,4 +1,9 @@
+-- MODULE REQUIREMENTS
+
+shoot_module = require "shoot"
 goose_module = require "goose"
+
+-- END MODULES
 
 function round(num, digits)
     local mult = 10^(digits or 0)
@@ -127,6 +132,8 @@ end
 function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
+    elseif button == "triggerright" then
+        shoot_module.shoot()
     else
         love.event.quit()
     end
