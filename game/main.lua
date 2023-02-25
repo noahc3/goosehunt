@@ -143,7 +143,7 @@ function love.draw()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
     goose:draw()
-    scorehud:draw()
+    scorehud:draw(2, 0, 0, 500)
 end
 
 -- we need to quit the app when a button is pressed
