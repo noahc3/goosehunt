@@ -7,7 +7,7 @@
 [metadata]
 name = "Goose Hunt"
 author = "Hackathon Team"
-description = "Duck Hunt clone for the 2023 .devClub hackathon""
+description = "Duck Hunt clone for the 2023 .devClub hackathon"
 version = "1.0.0"
 
 ## --- Build Options --- ##
