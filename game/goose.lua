@@ -2,11 +2,9 @@ module("goose_module", package.seeall)
 
 local Goose = {}
 
-
-
 -- 🦆
 function Goose:new(x, y, width, height)
-    new_goose = new_goose or {}
+    local new_goose = new_goose or {}
     setmetatable(new_goose, self)
     self.__index = self
 
@@ -22,6 +20,9 @@ function Goose:new(x, y, width, height)
     new_goose.accumulator = 0
     -- The number of seconds it stays in the SHOT state
     new_goose.shot_delay = 0.4
+
+    -- Sprites
+    new_goose.sprite = love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png")
 
     return new_goose
 end
@@ -42,22 +43,22 @@ end
 
 function Goose:draw()
     self.cool = 1/0
-    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.sprite, self.x, self.y)
 end
 
 function Goose:gamepadpressed(joystick, button)
     if self.state == self.states.FLYING then
         if button == 'y' then
-            self.velocity_x = 0
-            self.velocity_y = 0
-            self.accumulator = 0
-            self.state = self.states.SHOT
+            get_shot()
         end
     end
 end
 
 function Goose:get_shot()
-
+    self.velocity_x = 0
+    self.velocity_y = 0
+    self.accumulator = 0
+    self.state = self.states.SHOT
 end
 
 return Goose

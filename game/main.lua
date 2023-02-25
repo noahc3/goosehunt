@@ -4,11 +4,16 @@ cursor_module = require "cursor"
 shoot_module = require "shoot"
 goose_module = require "goose"
 scorehud = require "gui/scorehud"
+graphics = require "gui/graphics"
 
 -- END MODULES
 
 SCENES = {INTRO = 0, GAME = 1}
 SCENE = SCENES.INTRO
+
+basegoosepos = {200, 532}
+spawnafter = 3
+geeselist = {}
 
 function round(num, digits)
     local mult = 10^(digits or 0)
@@ -19,6 +24,7 @@ function debugdraw()
     local strs = {
         "Debug Output",
         "FPS: " .. love.timer.getFPS(),
+        "Geese active: " .. table.getn(geeselist),
         "Joystick Count: " .. love.joystick.getJoystickCount(),
         "Joysticks:",
     }
@@ -43,15 +49,30 @@ function love.load()
     triggerheld = false;
     lsoffset = {0, 0}
     cursor:centergyro()
-    goose = goose_module:new(200, 532, 128, 128)
+    spawntime = love.timer.getTime() + spawnafter
+    
+    graphics:init()
     scorehud:init()
+    shoot_module:init()
 
     introimage = love.graphics.newImage("assets/introscene.png")
     introtime = love.timer.getTime()
+
+    spawn_one = love.audio.newSource("assets/sounds/grass_one.ogg", "stream")
+    spawn_two = love.audio.newSource("assets/sounds/grass_two.ogg", "stream")
+    spawn_three = love.audio.newSource("assets/sounds/grass_three.ogg", "stream")
+    spawn_four = love.audio.newSource("assets/sounds/grass_four.ogg", "stream")
 end
 
 function love.update(dt)
-    goose:update(dt)
+    for i,goose in ipairs(geeselist) do
+        goose:update(dt)
+
+        if goose.y + goose.height < 0 or goose.x + goose.width < 0 or goose.x > 1280 then
+            table.remove(geeselist, i)
+        end
+    end
+
     cursor:update(dt)
 end
 
@@ -63,6 +84,26 @@ function draw_intro()
 end
 
 function draw_game()
+    if love.timer.getTime() > spawntime then
+        table.insert(geeselist, goose_module:new(basegoosepos[1], basegoosepos[2], 128, 128))
+        spawntime = love.timer.getTime() + spawnafter
+
+        local random_num = math.random(1, 4)
+
+        if(random_num == 1) then
+          spawn_audio = spawn_one
+        elseif(random_num == 2) then
+          spawn_audio = spawn_two
+        elseif(random_num == 3) then
+          spawn_audio = spawn_three
+        else
+          spawn_audio = spawn_four
+        end
+
+        spawn_audio:play()
+
+    end
+
     local cursorpos = cursor:gyropos()
     local stick = love.joystick.getJoysticks()[1]
 
@@ -73,9 +114,14 @@ function draw_game()
         triggerheld = false
     end
 
-    goose:draw()
-    cursor:draw(cursorpos, lsoffset)
+    graphics:draw()
+
+    for i,goose in ipairs(geeselist) do
+        goose:draw()
+    end
     scorehud:draw(2, 0, 0, 500)
+    
+    cursor:draw(cursorpos, lsoffset)
 end
 
 function love.draw()
@@ -92,7 +138,9 @@ end
 
 -- we need to quit the app when a button is pressed
 function love.gamepadpressed(joystick, button)
-    goose:gamepadpressed(joystick, button)
+    for i,goose in ipairs(geeselist) do
+        goose:gamepadpressed(joystick, button)
+    end
 
     if SCENE == SCENES.INTRO then
         if button == "start" then
