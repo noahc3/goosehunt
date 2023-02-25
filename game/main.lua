@@ -2,6 +2,7 @@
 
 shoot_module = require "shoot"
 goose_module = require "goose"
+scorehud = require "gui/scorehud"
 
 -- END MODULES
 
@@ -114,9 +115,10 @@ function debugdraw()
 end
 
 function love.load()
+    triggerheld = false;
     centergyro()
-
     goose = goose_module:new(200, 100, 70, 90)
+    scorehud:init()
 end
 
 function love.update()
@@ -127,17 +129,27 @@ function love.draw()
     debugdraw()
 
     local cursorpos = gyropos()
+    local stick = love.joystick.getJoysticks()[1]
+
+    love.graphics.setColor(1, 1, 1, 1)
+
+    if (stick:getAxis(6) == 1) and (not triggerheld) then
+        shoot_module:shoot(stick, cursorpos)
+        triggerheld = true
+    elseif stick:getAxis(6) == 0 then
+        triggerheld = false
+    end
+
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
     goose:draw()
+    scorehud:draw()
 end
 
 -- we need to quit the app when a button is pressed
 function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
-    elseif button == "triggerright" then
-        shoot_module.shoot()
     else
         love.event.quit()
     end
