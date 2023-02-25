@@ -120,6 +120,14 @@ function love.draw()
     debugdraw()
 
     local cursorpos = gyropos()
+    local stick = love.joystick.getJoysticks()[1]
+
+    love.graphics.setColor(1, 1, 1, 1)
+
+    if stick:getAxis(6) == 1 then
+        shoot_module.shoot(stick, cursorpos)
+    end
+
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 end
 
@@ -127,8 +135,6 @@ end
 function love.gamepadpressed(joystick, button)
     if button == "x" then
         centergyro()
-    elseif button == "triggerright" then
-        shoot_module.shoot(joystick, gyropos())
     else
         love.event.quit()
     end
