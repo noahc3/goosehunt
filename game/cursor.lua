@@ -1,4 +1,4 @@
-module("aimcontrols", package.seeall)
+module("cursor", package.seeall)
 
 -- GYRO CONTROL FUNCS
 
@@ -7,7 +7,7 @@ CURSOR_SENSITIVITY = 2
 gyrocenter = {0,0,1}
 JOYCON = 2 -- 1 for left, 2 for right
 
-function aimcontrols:gyroaxes(joystick, joycon)
+function cursor:gyroaxes(joystick, joycon)
     local axes = {joystick:getAxes()}
     local s = 13 + ((joycon - 1) or 0) * 9
     local e = s + 2
@@ -17,12 +17,12 @@ end
 
 -- Implementation stolen from https://github.com/friedkeenan/nx-hbc/blob/master/source/drivers.c#L88
 -- ty keenan and destiny <3
-function aimcontrols:centergyro()
+function cursor:centergyro()
     if (love.joystick.getJoystickCount() < 1) then
         return
     end
 
-    local sixaxis = aimcontrols:gyroaxes(love.joystick.getJoysticks()[1], JOYCON)
+    local sixaxis = cursor:gyroaxes(love.joystick.getJoysticks()[1], JOYCON)
     gyrocenter = {
         sixaxis[1],
         sixaxis[3],
@@ -30,7 +30,7 @@ function aimcontrols:centergyro()
     }
 end
 
-function aimcontrols:gyropos()
+function cursor:gyropos()
     if (love.joystick.getJoystickCount() < 1) then
         return {1280/2,720/2}
     end
@@ -38,7 +38,7 @@ function aimcontrols:gyropos()
     local sin, cos, abs = math.sin, math.cos, math.abs
 
     local joystick = love.joystick.getJoysticks()[1]
-    local sixaxis = aimcontrols:gyroaxes(joystick, JOYCON)
+    local sixaxis = cursor:gyroaxes(joystick, JOYCON)
 
     local finalvector = {
         CURSOR_SENSITIVITY * (sixaxis[1] - gyrocenter[1]),
@@ -81,13 +81,10 @@ end
 
 -- LEFT STICK CONTROL FUNCS
 
-function aimcontrols:leftstickdelta()
-    if (love.joystick.getJoystickCount() < 1) then
-        return {0, 0}
-    end
+CURSOR_SPEED = 512
 
-    local controller = love.joystick.getJoysticks()[1]
-    local leftstick = {controller:getAxis(1), controller:getAxis(2)}
+function cursor:leftstickdelta(joystick)
+    local leftstick = {joystick:getAxis(1), joystick:getAxis(2)}
 
     delta = {leftstick[1], leftstick[2]}
 
@@ -95,3 +92,25 @@ function aimcontrols:leftstickdelta()
 end
 
 -- END LEFT STICK CONTROL FUNCS
+
+-- DISPLAY FUNCS
+
+function cursor:update(dt)
+    if (love.joystick.getJoystickCount() < 1) then
+        return {0, 0}
+    end
+
+    lsdelta = cursor:leftstickdelta(love.joystick.getJoysticks()[1])
+    lsoffset[1] = lsoffset[1] + (lsdelta[1]*CURSOR_SPEED*dt)
+    lsoffset[2] = lsoffset[2] + (lsdelta[2]*CURSOR_SPEED*dt)
+end
+
+function cursor:draw(cursorpos, lsoffset)
+    cursorpos[1] = math.max(math.min(cursorpos[1] + lsoffset[1], 1280), math.max(0, cursorpos[1] + lsoffset[1]))
+    cursorpos[2] = math.max(math.min(cursorpos[2] + lsoffset[2], 720), math.max(0, cursorpos[2] + lsoffset[2]))
+
+    love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
+-- END DISPLAY FUNCS
