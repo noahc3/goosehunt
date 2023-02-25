@@ -76,7 +76,7 @@ function love.load()
     triggerheld = false;
     lsoffset = {0, 0}
     aimcontrols:centergyro()
-    goose = goose_module:new(200, 100, 70, 90)
+    goose = goose_module:new(200, 588, 45, 45)
     scorehud:init()
 end
 

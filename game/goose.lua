@@ -13,7 +13,7 @@ function Goose:new(x, y, width, height)
     new_goose.width = width
     new_goose.height = height
     new_goose.velocity_x = 60
-    new_goose.velocity_y = 120
+    new_goose.velocity_y = -120
 
     return new_goose
 end
