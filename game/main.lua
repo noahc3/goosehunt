@@ -47,6 +47,10 @@ function love.load()
     goose = goose_module:new(200, 100, 70, 90)
 end
 
+function love.update()
+    goose:update()
+end
+
 function love.draw()
     debugdraw()
 
