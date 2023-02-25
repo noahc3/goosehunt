@@ -21,7 +21,7 @@ function Goose:new(x, y, width, height)
     -- Used to keep track of time
     new_goose.accumulator = 0
     -- The number of seconds it stays in the SHOT state
-    new_goose.shot_delay = 1
+    new_goose.shot_delay = 0.4
 
     return new_goose
 end
@@ -34,7 +34,7 @@ function Goose:update(dt)
         self.accumulator = self.accumulator + dt
         if self.accumulator >= self.shot_delay then
             self.velocity_x = 0
-            self.velocity_y = 120
+            self.velocity_y = 400
             self.state = self.states.FALLING
         end
     end
