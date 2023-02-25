@@ -117,12 +117,12 @@ end
 function love.load()
     triggerheld = false;
     centergyro()
-    goose = goose_module:new(200, 100, 70, 90)
+    goose = goose_module:new(200, 588, 45, 45)
     scorehud:init()
 end
 
-function love.update()
-    goose:update()
+function love.update(dt)
+    goose:update(dt)
 end
 
 function love.draw()
@@ -143,7 +143,7 @@ function love.draw()
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
 
     goose:draw()
-    scorehud:draw()
+    scorehud:draw(2, 0, 0, 500)
 end
 
 -- we need to quit the app when a button is pressed
