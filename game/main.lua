@@ -113,6 +113,7 @@ function debugdraw()
 end
 
 function love.load()
+    triggerheld = false;
     centergyro()
 end
 
@@ -124,8 +125,11 @@ function love.draw()
 
     love.graphics.setColor(1, 1, 1, 1)
 
-    if stick:getAxis(6) == 1 then
+    if (stick:getAxis(6) == 1) and (not triggerheld) then
         shoot_module.shoot(stick, cursorpos)
+        triggerheld = true
+    elseif stick:getAxis(6) == 0 then
+        triggerheld = false
     end
 
     love.graphics.circle("fill", cursorpos[1], cursorpos[2], 15)
