@@ -14,6 +14,38 @@ end
 
 -- GYRO FUNCS
 
+POINTER_MAGIC = 0.70710678118654752440084436210485
+CURSOR_SENSITIVITY = 2
+gyrocenter = {0,0,1}
+JOYCON = 2 -- 1 for left, 2 for right
+
+function gyroaxes(joystick, joycon)
+    local axes = {joystick:getAxes()}
+    local s = 13 + ((joycon - 1) or 0) * 9
+    local e = s + 2
+    local axes = {unpack(axes, s, e)}
+    return axes
+end
+
+-- Implementation stolen from https://github.com/friedkeenan/nx-hbc/blob/master/source/drivers.c#L88
+-- ty keenan and destiny <3
+function centergyro()
+    if (love.joystick.getJoystickCount() < 1) then
+        return
+    end
+
+    local sixaxis = gyroaxes(love.joystick.getJoysticks()[1], JOYCON)
+    gyrocenter = {
+        sixaxis[1],
+        sixaxis[3],
+        sixaxis[2]
+    }
+end
+
+function gyropos()
+    if (love.joystick.getJoystickCount() < 1) then
+        return {1280/2,720/2}
+    end
 
 
 function debugdraw()
