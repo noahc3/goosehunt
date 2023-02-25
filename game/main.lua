@@ -8,7 +8,7 @@ graphics = require "gui/graphics"
 
 -- END MODULES
 
-SCENES = {INTRO = 0, GAME = 1}
+SCENES = {INTRO = 0, TITLE = 1, GAME = 2}
 SCENE = SCENES.INTRO
 
 basegoosepos = {200, 532}
@@ -55,7 +55,8 @@ function love.load()
     scorehud:init()
     shoot_module:init()
 
-    introimage = love.graphics.newImage("assets/introscene.png")
+    introimage = love.graphics.newImage("assets/start.png")
+    titleimage = love.graphics.newImage("assets/title.png")
     introtime = love.timer.getTime()
 
     spawn_one = love.audio.newSource("assets/sounds/grass_one.ogg", "stream")
@@ -81,6 +82,13 @@ function draw_intro()
     local alpha = love.timer.getTime() - introtime
     love.graphics.setColor(1,1,1,alpha)
     love.graphics.draw(introimage, 0, 0)
+end
+
+function draw_title()
+  local joystick = love.joystick.getJoysticks()[1]
+  local alpha = love.timer.getTime() - alpha
+  love.graphics.setColor(1,1,1,alpha)
+  love.graphics.draw(titleimage, 0, 0)
 end
 
 function draw_game()
@@ -131,7 +139,9 @@ function love.draw()
     debugdraw()
 
     if SCENE == SCENES.INTRO then
-        draw_intro()
+      draw_intro()
+    elseif SCENE == SCENES.TITLE then
+        draw_title()
     elseif SCENE == SCENES.GAME then
         draw_game()
     end
@@ -144,8 +154,13 @@ function love.gamepadpressed(joystick, button)
     end
 
     if SCENE == SCENES.INTRO then
+      if button == "start" then
+        SCENE = SCENES.TITLE
+        alpha = love.timer.getTime()
+      end
+    elseif SCENE == SCENES.TITLE then
         if button == "start" then
-            SCENE = SCENES.GAME
+          SCENE = SCENES.GAME
         end
     elseif SCENE == SCENES.GAME then
         if button == "x" then
