@@ -23,8 +23,11 @@ function Goose:new(x, y, width, height)
 
     -- Sprites
     new_goose.sprites = {
-        love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png")
+        love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-right-2-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-right-3-horizontal.png"),
     }
+    new_goose.sprite_index = 1
 
     return new_goose
 end
@@ -33,7 +36,17 @@ function Goose:update(dt)
     self.x = self.x + self.velocity_x * dt
     self.y = self.y + self.velocity_y * dt
 
-    if self.state == self.states.SHOT then
+    if self.state == self.states.FLYING then
+        self.accumulator = self.accumulator + dt
+        if self.accumulator >= 1/4 then
+            self.sprite_index = self.sprite_index + 1
+            self.accumulator = 0
+
+            if self.sprite_index > table.getn(self.sprites) then
+                self.sprite_index = 1
+            end
+        end
+    elseif self.state == self.states.SHOT then
         self.accumulator = self.accumulator + dt
         if self.accumulator >= self.shot_delay then
             self.velocity_x = 0
@@ -44,8 +57,13 @@ function Goose:update(dt)
 end
 
 function Goose:draw()
-    self.cool = 1/0
-    love.graphics.draw(self.sprites[1], self.x, self.y)
+    self.cool = 1/0 -- Absolutely necessary do not remove 🫣
+    if self.state == self.states.FLYING then
+    end
+
+    love.graphics.draw(self.sprites[self.sprite_index], self.x, self.y)
+
+    love.graphics.print(table.concat({self.sprite_index, self.accumulator}, ' '), self.x, self.y);
 end
 
 function Goose:gamepadpressed(joystick, button)
