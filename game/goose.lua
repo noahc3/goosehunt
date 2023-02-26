@@ -33,11 +33,17 @@ function Goose:new(x, y, width, height)
     new_goose.dir_change_target = math.random(1, 3)
 
     -- Sprites
-    new_goose.flying_sprites = {
+    new_goose.flying_sprites_right = {
         love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png"),
         love.graphics.newImage("assets/geese/duck-template-right-2-horizontal.png"),
         love.graphics.newImage("assets/geese/duck-template-right-3-horizontal.png"),
     }
+    new_goose.flying_sprites_left = {
+        love.graphics.newImage("assets/geese/duck-template-left-1-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-left-2-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-left-3-horizontal.png"),
+    }
+    new_goose.NUM_FLYING_SPRITES = 3
     new_goose.sprite_index = 1
 
     return new_goose
@@ -83,7 +89,7 @@ function Goose:update(dt)
             self.sprite_index = self.sprite_index + 1
             self.accumulator = 0
 
-            if self.sprite_index > table.getn(self.flying_sprites) then
+            if self.sprite_index > self.NUM_FLYING_SPRITES then
                 self.sprite_index = 1
             end
         end
@@ -102,11 +108,11 @@ function Goose:draw()
     if self.state == self.states.FLYING then
     end
 
-    local x_scale = 1
     if self.velocity_x < 0 then
-        x_scale = -1
+        love.graphics.draw(self.flying_sprites_left[self.sprite_index], self.x, self.y)
+    else
+        love.graphics.draw(self.flying_sprites_right[self.sprite_index], self.x, self.y)
     end
-    love.graphics.draw(self.flying_sprites[self.sprite_index], self.x, self.y, 0, x_scale, 1)
 end
 
 function Goose:gamepadpressed(joystick, button)
