@@ -15,7 +15,13 @@ function Goose:new(x, y, width, height)
     new_goose.y = y
     new_goose.width = width
     new_goose.height = height
-    new_goose.velocity_x = 60
+
+    if x > 1280/2 then
+        new_goose.velocity_x = -60
+    else
+        new_goose.velocity_x = 60
+    end
+
     new_goose.velocity_y = -120
     new_goose.states = {FLYING = 0, SHOT = 1, FALLING = 2, RISING = 3}
     new_goose.state = new_goose.states.RISING
@@ -27,7 +33,12 @@ function Goose:new(x, y, width, height)
     new_goose.dir_change_target = math.random(1, 3)
 
     -- Sprites
-    new_goose.sprite = love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png")
+    new_goose.sprites = {
+        love.graphics.newImage("assets/geese/duck-template-right-1-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-right-2-horizontal.png"),
+        love.graphics.newImage("assets/geese/duck-template-right-3-horizontal.png"),
+    }
+    new_goose.sprite_index = 1
 
     return new_goose
 end
@@ -66,7 +77,17 @@ function Goose:update(dt)
     self.x = self.x + self.velocity_x * dt
     self.y = self.y + self.velocity_y * dt
 
-    if self.state == self.states.SHOT then
+    if self.state == self.states.FLYING or self.state == self.states.RISING then
+        self.accumulator = self.accumulator + dt
+        if self.accumulator >= 1/4 then
+            self.sprite_index = self.sprite_index + 1
+            self.accumulator = 0
+
+            if self.sprite_index > table.getn(self.sprites) then
+                self.sprite_index = 1
+            end
+        end
+    elseif self.state == self.states.SHOT then
         self.accumulator = self.accumulator + dt
         if self.accumulator >= self.shot_delay then
             self.velocity_x = 0
@@ -77,8 +98,11 @@ function Goose:update(dt)
 end
 
 function Goose:draw()
-    self.cool = 1/0
-    love.graphics.draw(self.sprite, self.x, self.y)
+    self.cool = 1/0 -- Absolutely necessary do not remove 🫣
+    if self.state == self.states.FLYING then
+    end
+
+    love.graphics.draw(self.sprites[self.sprite_index], self.x, self.y)
 end
 
 function Goose:gamepadpressed(joystick, button)
