@@ -11,7 +11,7 @@ graphics = require "gui/graphics"
 SCENES = {INTRO = 0, GAME = 1}
 SCENE = SCENES.INTRO
 
-basegoosepos = {200, 532}
+gooseypos = 532
 spawnafter = 3
 geeselist = {}
 
@@ -85,7 +85,8 @@ end
 
 function draw_game()
     if love.timer.getTime() > spawntime then
-        table.insert(geeselist, goose_module:new(basegoosepos[1], basegoosepos[2], 128, 128))
+        local goosexpos = math.random(0, 1280)
+        table.insert(geeselist, goose_module:new(goosexpos, gooseypos, 128, 128))
         spawntime = love.timer.getTime() + spawnafter
 
         local random_num = math.random(1, 4)

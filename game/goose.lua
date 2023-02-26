@@ -15,7 +15,13 @@ function Goose:new(x, y, width, height)
     new_goose.y = y
     new_goose.width = width
     new_goose.height = height
-    new_goose.velocity_x = 60
+
+    if x > 1280/2 then
+        new_goose.velocity_x = -60
+    else
+        new_goose.velocity_x = 60
+    end
+    
     new_goose.velocity_y = -120
     new_goose.states = {FLYING = 0, SHOT = 1, FALLING = 2, RISING = 3}
     new_goose.state = new_goose.states.RISING
