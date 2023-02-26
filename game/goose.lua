@@ -127,14 +127,6 @@ function Goose:draw()
     end
 end
 
-function Goose:gamepadpressed(joystick, button)
-    if self.state == self.states.FLYING or self.state == self.states.RISING then
-        if button == 'y' then
-            get_shot()
-        end
-    end
-end
-
 function Goose:get_shot()
     self.velocity_x = 0
     self.velocity_y = 0
