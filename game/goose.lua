@@ -47,6 +47,8 @@ function Goose:new(x, y, width, height)
         love.graphics.newImage("assets/geese/duck-template-left-2-horizontal.png"),
         love.graphics.newImage("assets/geese/duck-template-left-3-horizontal.png"),
     }
+    new_goose.caught_sprite = love.graphics.newImage("assets/geese/duck-net-caught.png")
+    new_goose.shot_sprite = love.graphics.newImage("assets/geese/duck-net.png")
     new_goose.NUM_FLYING_SPRITES = 3
     new_goose.sprite_index = 1
 
@@ -112,10 +114,16 @@ function Goose:draw()
     if self.state == self.states.FLYING then
     end
 
-    if self.velocity_x < 0 then
-        love.graphics.draw(self.flying_sprites_left[self.sprite_index], self.x, self.y)
-    else
-        love.graphics.draw(self.flying_sprites_right[self.sprite_index], self.x, self.y)
+    if self.state == self.states.RISING or self.state == self.states.FLYING then
+        if self.velocity_x < 0 then
+            love.graphics.draw(self.flying_sprites_left[self.sprite_index], self.x, self.y)
+        else
+            love.graphics.draw(self.flying_sprites_right[self.sprite_index], self.x, self.y)
+        end
+    elseif self.state == self.states.SHOT then
+        love.graphics.draw(self.shot_sprite, self.x, self.y)
+    elseif self.state == self.states.FALLING then
+        love.graphics.draw(self.caught_sprite, self.x, self.y)
     end
 end
 
