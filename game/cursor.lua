@@ -108,6 +108,7 @@ function cursor:update(dt)
 end
 
 function cursor:draw(cursorpos, lsoffset)
+    love.graphics.setColor(1,1,1,1)
     cursorpos[1] = math.max(math.min(cursorpos[1] + lsoffset[1], 1280), 0)
     cursorpos[2] = math.max(math.min(cursorpos[2] + lsoffset[2], 720), 0)
 
