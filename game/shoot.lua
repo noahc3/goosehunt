@@ -1,13 +1,14 @@
 module("shoot", package.seeall)
 
 goose_module = require "goose"
+score_module = require "score"
 
 -- functions for shooting shit yeehaw
 
 CURSORSIZE = 30
 
 function shoot:init()
-  self.shoot_sound = love.audio.newSource("assets/sounds/shoot.ogg", "stream")
+    self.shoot_sound = love.audio.newSource("assets/sounds/shoot.ogg", "stream")
 end
 
 
@@ -26,9 +27,16 @@ function shoot:shoot(joystick, coords, geeselist)
 
     centredcoords = centrecoords(coords)
 
+    hit_goose = false
+
     for i,goose in ipairs(geeselist) do
         if goose.state == goose.states.FLYING and collides(centredcoords, goose) then
             goose:get_shot()
+            hit_goose = true
         end
+    end
+
+    if(hit_goose == false) then
+        score_module:miss_shot()
     end
 end
