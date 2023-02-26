@@ -21,7 +21,7 @@ function Goose:new(x, y, width, height)
     else
         new_goose.velocity_x = 60
     end
-    
+
     new_goose.velocity_y = -120
     new_goose.states = {FLYING = 0, SHOT = 1, FALLING = 2, RISING = 3}
     new_goose.state = new_goose.states.RISING
@@ -77,7 +77,7 @@ function Goose:update(dt)
     self.x = self.x + self.velocity_x * dt
     self.y = self.y + self.velocity_y * dt
 
-    if self.state == self.states.FLYING then
+    if self.state == self.states.FLYING or self.state == self.states.RISING then
         self.accumulator = self.accumulator + dt
         if self.accumulator >= 1/4 then
             self.sprite_index = self.sprite_index + 1
