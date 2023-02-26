@@ -5,6 +5,10 @@ local Goose = {}
 GOOSE_MAX_Y = 400
 SPEED = 1
 
+function Goose:init()
+    self.dying_sound = love.audio.newSource("assets/sounds/zoidberg.ogg", "stream")
+end
+
 -- 🦆
 function Goose:new(x, y, width, height)
     local new_goose = new_goose or {}
@@ -118,6 +122,7 @@ function Goose:get_shot()
     self.velocity_y = 0
     self.accumulator = 0
     self.state = self.states.SHOT
+    self.dying_sound:play()
 end
 
 return Goose
