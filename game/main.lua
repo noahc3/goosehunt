@@ -181,9 +181,6 @@ end
 
 -- we need to quit the app when a button is pressed
 function love.gamepadpressed(joystick, button)
-    for i,goose in ipairs(geeselist) do
-        goose:gamepadpressed(joystick, button)
-    end
 
     if SCENE == SCENES.INTRO then
       if button == "start" then
