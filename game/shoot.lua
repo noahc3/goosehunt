@@ -23,12 +23,23 @@ function shoot:shoot(joystick, coords, geeselist)
     -- apply max rumble for 0.5 seconds
     local vibe = joystick:setVibration(1, 1, 0.5)
     self.shoot_sound:play()
+    bulletcount = bulletcount - 1
 
     centredcoords = centrecoords(coords)
 
     for i,goose in ipairs(geeselist) do
         if goose.state == goose.states.FLYING and collides(centredcoords, goose) then
             goose:get_shot()
+            goosecount = goosecount + 1
+            if goosecount > 9 then
+                if stage == 3 then
+                    --win screen
+                    love.event.quit()
+                else
+                    goosecount = 0
+                    stage = stage + 1
+                end
+            end
         end
     end
 end

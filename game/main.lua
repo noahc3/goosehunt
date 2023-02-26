@@ -124,10 +124,13 @@ function draw_game()
     
     cursor:draw(cursorpos, lsoffset)
 
-    scorehud:draw(2, 0, 0, 500)
+    scorehud:draw(stage, bulletcount, goosecount, score)
 
     if (stick:getAxis(6) == 1) and (not triggerheld) then
-        shoot_module:shoot(stick, cursorpos, geeselist)
+        if bulletcount > 0 then
+            shoot_module:shoot(stick, cursorpos, geeselist)
+        end
+
         triggerheld = true
     elseif stick:getAxis(6) == 0 then
         triggerheld = false
@@ -136,8 +139,6 @@ end
 
 function love.draw()
     love.graphics.setColor(1, 1, 1, 1)
-    
-    debugdraw()
 
     if SCENE == SCENES.INTRO then
       draw_intro()
@@ -166,6 +167,8 @@ function love.gamepadpressed(joystick, button)
     elseif SCENE == SCENES.GAME then
         if button == "x" then
             cursor:centergyro()
+        elseif button == "b" and bulletcount < 3 then
+            bulletcount = bulletcount + 1
         elseif button == "start" then
             love.event.quit()
         end
