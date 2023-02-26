@@ -1,5 +1,7 @@
 local scorehud = {}
 
+score_module = require "score"
+
 function scorehud:loadfont(file, size)
     love.graphics.setNewFont(file, size)
     local font = love.graphics.getFont()
@@ -30,7 +32,7 @@ function scorehud:draw(round, bulletCount, gooseCount, score)
 
     self:goose_counter(gooseCount)
     scorehud:bullet_counter(bulletCount)
-    scorehud:miss_counter(25)
+    scorehud:miss_counter()
 end
   
 
@@ -44,7 +46,6 @@ function scorehud:goose_counter(goose_count)
     end
     for i = goose_count, 9 do
       love.graphics.draw(self.hud_goose, goose_x + i * goose_x_change, goose_y)
-    
     end
 end
 
@@ -58,9 +59,13 @@ function scorehud:bullet_counter(bullet_count)
     end
 end
 
-function scorehud:miss_counter(line_amount)
+function scorehud:miss_counter()
     line_x = 345
     line_y = 610
+
+    start_amount = 24
+
+    line_amount = start_amount - score_module:get_miss_shot()
 
     love.graphics.setColor(35/255,110/255,248/255,1.0)
     for i = 0, line_amount do

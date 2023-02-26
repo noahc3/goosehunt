@@ -3,7 +3,7 @@
 cursor_module = require "cursor"
 shoot_module = require "shoot"
 goose_module = require "goose"
-scorehud = require "gui/scorehud"
+scorehud = require "scorehud"
 graphics = require "gui/graphics"
 
 -- END MODULES
@@ -54,6 +54,7 @@ function love.load()
     graphics:init()
     scorehud:init()
     shoot_module:init()
+    goose_module:init()
 
     introimage = love.graphics.newImage("assets/start.png")
     titleimage = love.graphics.newImage("assets/title.png")
