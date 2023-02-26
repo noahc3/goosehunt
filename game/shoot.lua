@@ -24,6 +24,7 @@ function shoot:shoot(joystick, coords, geeselist)
     -- apply max rumble for 0.5 seconds
     local vibe = joystick:setVibration(1, 1, 0.5)
     self.shoot_sound:play()
+    score_module:lose_bullet()
 
     centredcoords = centrecoords(coords)
 
@@ -31,6 +32,7 @@ function shoot:shoot(joystick, coords, geeselist)
 
     for i,goose in ipairs(geeselist) do
         if goose.state == goose.states.FLYING and collides(centredcoords, goose) then
+            score_module:update_score()
             goose:get_shot()
             hit_goose = true
         end

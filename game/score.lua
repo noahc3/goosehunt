@@ -18,22 +18,12 @@ curr_stage = 1
 score = 0
 kill_count = 0
 miss_count = 0
+bullet_count = 3
 
 
 -- raise score
-function score(goose_type, time)
-    local goose_multiplier = 1
+function score_module:update_score()
     local stage_multiplier = 1
-    local time_multiplier = 1
-
-    -- goose scaling
-    if(goose_type == 1) then
-      goose_multiplier = blue_goose
-    elseif(goose_type == 2) then
-      goose_multiplier = green_goose
-    elseif(goose_type == 3) then
-      goose_multiplier = pink_goose
-    end
 
     -- determine stage
     if(curr_stage == 1) then
@@ -43,27 +33,35 @@ function score(goose_type, time)
     elseif(curr_stage == 3) then
       stage_multiplier = stage_two
     end
-    -- figure out time scaling
-    if(time <= 1) then
-      time_multiplier = 5
-    elseif(time > 1 and time <= 2 ) then
-      time_multiplier = 3
-    elseif(time > 2 and time <= 5 ) then
-      time_multiplier = 2
-    end
     
-    score = score + goose_multiplier*stage_multiplier*time_multipler
+    score = score + stage_multiplier
     kill_count = kill_count + 1
 
     return score
 
 end
 
+function score_module:get_score()
+    return score
+end
+
 function score_module:get_goose_counter()
     return kill_count
 end
 
-function change_round()
+function score_module:lose_bullet()
+    bullet_count = bullet_count - 1
+end
+
+function score_module:reload()
+    bullet_count = bullet_count + 1
+end
+
+function score_module:get_bullets()
+    return bullet_count
+end
+
+function score_module:change_round()
     if(curr_stage == 1) then
       curr_stage = 2
       kill_count = 0
@@ -73,7 +71,7 @@ function change_round()
     end
 end
 
-function get_round()
+function score_module:get_round()
     return curr_stage
 end
 
