@@ -64,15 +64,17 @@ function score_module:get_goose_counter()
 end
 
 function change_round()
-    if(kill_count == 10) then
+    if(curr_stage == 1) then
       curr_stage = 2
       kill_count = 0
-    elseif(kill_count == 20) then
+    elseif(curr_stage == 2) then
       curr_stage = 3
       kill_count = 0
-    elseif(kill_count == 30) then
-      -- end game
     end
+end
+
+function get_round()
+    return curr_stage
 end
 
 function score_module:miss_shot()

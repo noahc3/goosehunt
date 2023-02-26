@@ -4,11 +4,12 @@ cursor_module = require "cursor"
 shoot_module = require "shoot"
 goose_module = require "goose"
 scorehud = require "scorehud"
+score = require "score"
 graphics = require "gui/graphics"
 
 -- END MODULES
 
-SCENES = {INTRO = 0, TITLE = 1, GAME = 2}
+SCENES = {INTRO = 0, TITLE = 1, GAME = 2, WIN = 3, LOSE = 4}
 SCENE = SCENES.INTRO
 
 gooseypos = 532
@@ -58,6 +59,8 @@ function love.load()
 
     introimage = love.graphics.newImage("assets/start.png")
     titleimage = love.graphics.newImage("assets/title.png")
+    winimage = love.graphics.newImage("assets/geese/win.png")
+    loseimage = love.graphics.newImage("assets/geese/sleeping-goose.png")
     introtime = love.timer.getTime()
 
     spawn_one = love.audio.newSource("assets/sounds/grass_one.ogg", "stream")
@@ -79,17 +82,27 @@ function love.update(dt)
 end
 
 function draw_intro()
-    local joystick = love.joystick.getJoysticks()[1]
     local alpha = love.timer.getTime() - introtime
     love.graphics.setColor(1,1,1,alpha)
     love.graphics.draw(introimage, 0, 0)
 end
 
 function draw_title()
-  local joystick = love.joystick.getJoysticks()[1]
   local alpha = love.timer.getTime() - alpha
   love.graphics.setColor(1,1,1,alpha)
   love.graphics.draw(titleimage, 0, 0)
+end
+
+function draw_win()
+    local alpha = love.timer.getTime() - alpha
+    love.graphics.setColor(1,1,1,alpha)
+    love.graphics.draw(winimage, 0, 0)
+end
+
+function draw_lose()
+    local alpha = love.timer.getTime() - alpha
+    love.graphics.setColor(1,1,1,alpha)
+    love.graphics.draw(loseimage, 0, 0)
 end
 
 function draw_game()
@@ -141,11 +154,28 @@ function love.draw()
     debugdraw()
 
     if SCENE == SCENES.INTRO then
-      draw_intro()
+        draw_intro()
     elseif SCENE == SCENES.TITLE then
         draw_title()
     elseif SCENE == SCENES.GAME then
         draw_game()
+        if score:get_miss_shot() >= 25 then
+            SCENE = SCENES.LOSE
+            alpha = love.timer.getTime()
+        end
+
+        if score:get_goose_counter() >= 10 then
+            if score:get_round() >= 3 then
+                SCENE = SCENES.WIN
+                alpha = love.timer.getTime()
+            else
+                score:change_round()
+            end
+        end
+    elseif SCENE == SCENES.WIN then
+        draw_win()
+    elseif SCENE == SCENES.LOSE then
+        draw_lose()
     end
 end
 
@@ -168,6 +198,10 @@ function love.gamepadpressed(joystick, button)
         if button == "x" then
             cursor:centergyro()
         elseif button == "start" then
+            love.event.quit()
+        end
+    else
+        if button == "start" then
             love.event.quit()
         end
     end
