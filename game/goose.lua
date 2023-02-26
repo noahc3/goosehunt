@@ -103,8 +103,6 @@ function Goose:draw()
     end
 
     love.graphics.draw(self.sprites[self.sprite_index], self.x, self.y)
-
-    love.graphics.print(table.concat({self.sprite_index, self.accumulator}, ' '), self.x, self.y);
 end
 
 function Goose:gamepadpressed(joystick, button)
